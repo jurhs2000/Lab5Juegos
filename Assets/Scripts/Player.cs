@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         laserLine = GetComponent<LineRenderer>();
-        //gunAudio = GetComponent<AudioSource>();
+        gunAudio = GetComponent<AudioSource>();
         fpsCamera = GetComponentInParent<Camera>();
     }
 
@@ -40,11 +40,16 @@ public class Player : MonoBehaviour
                 laserLine.SetPosition(1, rayOrigin + (fpsCamera.transform.forward * weaponRange));
             }
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            gunAudio.Play();
+        }
     }
 
     private IEnumerator ShotEffect()
     {
-        //gunAudio.Play();
+        gunAudio.Play();
         laserLine.enabled = true;
         yield return shotDuration;
         laserLine.enabled = false;

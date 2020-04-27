@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerModel : MonoBehaviour
 {
-
+    private int bullet = 10;
     public Animator gunAnimator;
     // Start is called before the first frame update
     void Start()
@@ -18,6 +18,12 @@ public class PlayerModel : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             gunAnimator.Play("Shoot");
+            bullet--;
+            if (bullet == 0)
+            {
+                gunAnimator.Play("Reload");
+                bullet = 10;
+            }
         }
     }
 }

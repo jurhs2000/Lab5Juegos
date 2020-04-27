@@ -27,12 +27,14 @@ public class CameraRay : MonoBehaviour
         {
             gunAudio.Play();
             bullets--;
-            targets++;
             Vector3 rayOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
             if (Physics.Raycast(rayOrigin, transform.forward, out hitInfo, 50f))
             {
                 if (hitInfo.collider.CompareTag("Target"))
+                {
                     Destroy(hitInfo.collider.gameObject);
+                    targets++;
+                }
             }
             if (bullets == 0)
             {

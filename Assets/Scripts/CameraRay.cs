@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraRay : MonoBehaviour
 {
-    public int bullets = 10;
+    public int bullets = 5;
     public int targets = 0;
     public AudioSource gunAudio;
     public AudioClip shootSound;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerModel : MonoBehaviour
 {
-    private int bullet = 10;
+    private int bullet = 5;
     public Animator gunAnimator;
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,7 @@ public class PlayerModel : MonoBehaviour
             if (bullet == 0)
             {
                 gunAnimator.Play("Reload");
-                bullet = 10;
+                bullet = 5;
             }
         }
     }

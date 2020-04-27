@@ -4,28 +4,49 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    public Transform gunEnd;
+    private WaitForSeconds shotDuration = new WaitForSeconds(.07f);
+    public float fireRate = .25f;
+    public float weaponRange = 50f;
+    private Camera fpsCamera;
+    public AudioSource gunAudio;
+    private LineRenderer laserLine;
+    private float nextFire;
     // Start is called before the first frame update
     void Start()
     {
-        
+        laserLine = GetComponent<LineRenderer>();
+        //gunAudio = GetComponent<AudioSource>();
+        fpsCamera = GetComponentInParent<Camera>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetMouseButtonDown(0))
-        {*/
-            RaycastHit hitInfo;
-            if (Physics.Raycast(transform.position, Vector3.right, out hitInfo, 3))
+        Vector3 lineOrigin = fpsCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        Debug.DrawRay(lineOrigin, fpsCamera.transform.forward * weaponRange, Color.red);
+        if (Input.GetMouseButtonDown(0) && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            StartCoroutine(ShotEffect());
+            Vector3 rayOrigin = fpsCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hit;
+            laserLine.SetPosition(0, gunEnd.position);
+            if (Physics.Raycast(rayOrigin, fpsCamera.transform.forward, out hit, weaponRange)) {
+                laserLine.SetPosition(1, hit.point);
+            } else
             {
-                Debug.DrawRay(transform.position, Vector3.right * 3, Color.red);
-                if (hitInfo.collider.CompareTag("Point"))
-                    Destroy(hitInfo.collider.gameObject);
+                laserLine.SetPosition(1, rayOrigin + (fpsCamera.transform.forward * weaponRange));
             }
-            else
-            {
-                Debug.DrawRay(transform.position, new Vector3(transform.eulerAngles.x,transform.eulerAngles.x,0), Color.green);
-            }
-        //}
+        }
+    }
+
+    private IEnumerator ShotEffect()
+    {
+        //gunAudio.Play();
+        laserLine.enabled = true;
+        yield return shotDuration;
+        laserLine.enabled = false;
     }
 }

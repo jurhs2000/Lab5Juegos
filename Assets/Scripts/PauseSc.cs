@@ -24,6 +24,8 @@ public class PauseSc : MonoBehaviour
                 pauseScreen.SetActive(false);
                 isActive = false;
                 Time.timeScale = 1;
+                Cursor.visible = true;
+                Screen.lockCursor = false;
             }
             else
             {

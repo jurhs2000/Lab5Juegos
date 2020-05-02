@@ -22,7 +22,7 @@ public class PlayerSound : MonoBehaviour
     {
         if (isMeesWalk)
         {
-            meeseeks.transform.Translate(0,0,0.1f);
+            meeseeks.transform.Translate(0,0,0.07f);
         }
     }
 

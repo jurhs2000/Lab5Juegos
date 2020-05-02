@@ -8,6 +8,7 @@ public class CameraRay : MonoBehaviour
     public int targets = 0;
     public AudioSource gunAudio;
     public AudioClip shootSound;
+    public AudioClip targetSoundSFX;
 
     // Start is called before the first frame update
     void Start()
@@ -15,13 +16,14 @@ public class CameraRay : MonoBehaviour
         gunAudio = GetComponent<AudioSource>();
         shootSound = Resources.Load<AudioClip>("gunSound");
         gunAudio.clip = shootSound;
+        targetSoundSFX = Resources.Load<AudioClip>("target-hit-sfx");
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 lineOrigin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-        Debug.DrawRay(lineOrigin, transform.forward * 50f, Color.green);
+        //Debug.DrawRay(lineOrigin, transform.forward * 50f, Color.green);
         RaycastHit hitInfo;
         if (Input.GetMouseButtonDown(0))
         {
@@ -34,6 +36,7 @@ public class CameraRay : MonoBehaviour
                 {
                     Destroy(hitInfo.collider.gameObject);
                     targets++;
+                    gunAudio.PlayOneShot(targetSoundSFX);
                 }
             }
             if (bullets == 0)

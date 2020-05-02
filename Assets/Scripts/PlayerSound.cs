@@ -22,13 +22,13 @@ public class PlayerSound : MonoBehaviour
     {
         if (isMeesWalk)
         {
-            meeseeks.transform.Translate(0,0,0.08f);
+            meeseeks.transform.Translate(0,0,0.1f);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("scream"))
+        if (other.gameObject.CompareTag("scream") && !isMeesWalk)
         {
             audioSource.PlayOneShot(scream);
             isMeesWalk = true;

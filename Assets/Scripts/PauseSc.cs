@@ -24,8 +24,8 @@ public class PauseSc : MonoBehaviour
                 pauseScreen.SetActive(false);
                 isActive = false;
                 Time.timeScale = 1;
-                Cursor.visible = true;
-                Screen.lockCursor = false;
+                Cursor.visible = false;
+                Screen.lockCursor = true;
                 CharacterController cc = FindObjectOfType<CharacterController>();
                 if (cc)
                     cc.gameObject.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
@@ -35,8 +35,8 @@ public class PauseSc : MonoBehaviour
                 pauseScreen.SetActive(true);
                 isActive = true;
                 Time.timeScale = 0;
-                Cursor.visible = false;
-                Screen.lockCursor = true;
+                Cursor.visible = true;
+                Screen.lockCursor = false;
                 CharacterController cc = FindObjectOfType<CharacterController>();
                 if (cc)
                     cc.gameObject.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;

@@ -26,12 +26,20 @@ public class PauseSc : MonoBehaviour
                 Time.timeScale = 1;
                 Cursor.visible = true;
                 Screen.lockCursor = false;
+                CharacterController cc = FindObjectOfType<CharacterController>();
+                if (cc)
+                    cc.gameObject.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
             }
             else
             {
                 pauseScreen.SetActive(true);
                 isActive = true;
                 Time.timeScale = 0;
+                Cursor.visible = false;
+                Screen.lockCursor = true;
+                CharacterController cc = FindObjectOfType<CharacterController>();
+                if (cc)
+                    cc.gameObject.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
             }
         }
     }

@@ -4,65 +4,34 @@ using UnityEngine;
 
 public class PlayerSound : MonoBehaviour
 {
-
-    private Rigidbody m_CharacterController;
-    private AudioSource m_AudioSource;
-    [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
-    [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
-    private float m_StepCycle;
-    private float m_NextStep;
-    private bool m_PreviouslyGrounded;
-
+    private AudioSource audioSource;
+    private AudioClip scream;
+    private GameObject meeseeks;
+    private bool isMeesWalk;
     // Start is called before the first frame update
     void Start()
     {
-        m_CharacterController = GetComponent<Rigidbody>();
-        m_StepCycle = 0f;
-        m_NextStep = m_StepCycle / 2f;
-        m_AudioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
+        scream = Resources.Load<AudioClip>("scream");
+        meeseeks = GameObject.Find("meeseeks");
+        isMeesWalk = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (!m_PreviouslyGrounded && m_CharacterController)
+        if (isMeesWalk)
         {
-            PlayLandingSound();
+            meeseeks.transform.Translate(0,0,0.08f);
         }
     }
 
-    private void FixedUpdate()
+    private void OnTriggerEnter(Collider other)
     {
-        ProgressStepCycle();
-    }
-
-    private void ProgressStepCycle()
-    {
-        PlayFootStepAudio();
-    }
-
-    private void PlayLandingSound()
-    {
-        m_AudioSource.clip = m_LandSound;
-        m_AudioSource.Play();
-        m_NextStep = m_StepCycle + .5f;
-    }
-
-    private void PlayFootStepAudio()
-    {
-        if (!m_CharacterController)
+        if (other.gameObject.CompareTag("scream"))
         {
-            return;
+            audioSource.PlayOneShot(scream);
+            isMeesWalk = true;
         }
-        // pick & play a random footstep sound from the array,
-        // excluding sound at index 0
-        int n = Random.Range(1, m_FootstepSounds.Length);
-        m_AudioSource.clip = m_FootstepSounds[n];
-        m_AudioSource.PlayOneShot(m_AudioSource.clip);
-        // move picked sound to index 0 so it's not picked next time
-        m_FootstepSounds[n] = m_FootstepSounds[0];
-        m_FootstepSounds[0] = m_AudioSource.clip;
     }
-
 }
